@@ -11,6 +11,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@types/jquery": "^3.3.29",
     "git": "^0.1.5",
     "save": "^2.3.3",
     "typescript": "^3.2.2"

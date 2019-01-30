@@ -1,6 +1,6 @@
 export abstract class View<T>{
 
-    private elemento: JQuery;
+    protected elemento: JQuery;
 
     constructor(seletor: string){
         this.elemento = $(seletor);

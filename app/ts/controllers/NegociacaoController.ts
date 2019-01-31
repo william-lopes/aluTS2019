@@ -3,28 +3,35 @@ import { Negociacoes, Negociacao } from '../models/index';
 
 export class NegociacaoController{
 
-    private inputData: JQuery;
-    private inputQuantidade: JQuery;
-    private inputValor: JQuery;
+    private _inputData: JQuery;
+    private _inputQuantidade: JQuery;
+    private _inputValor: JQuery;
     private negociacoes = new Negociacoes();
     private negociacoesView = new NegociacoesView('#negociacoesView');
     private mensagemView = new MensagemView('#mensagemView');
 
     constructor(){
-        this.inputData = $('#data');
-        this.inputQuantidade = $('#quantidade');
-        this.inputValor = $('#valor'); 
+        this._inputData = $('#dataInserida');
+        this._inputQuantidade = $('#quantidade');
+        this._inputValor = $('#valor'); 
         this.negociacoesView.update(this.negociacoes);       
     }
 
     adiciona(event: Event) {
 
         event.preventDefault();
+        
+        let data = new Date(this._inputData.val().replace(/-/g,','));
+
+        if(this.VerificaDia(data)){
+            this.mensagemView.update('Somente em dias úteis');
+            return
+        }
 
         const negociacao = new Negociacao(
-            new Date(this.inputData.val().replace(/-/g,',')),
-            parseInt(this.inputQuantidade.val()),
-            parseFloat(this.inputValor.val())
+            data,
+            parseInt(this._inputQuantidade.val()),
+            parseFloat(this._inputValor.val())
         );
 
         this.negociacoes.adiciona(negociacao);
@@ -33,4 +40,18 @@ export class NegociacaoController{
         this.mensagemView.update('Negociação Salva');
     
     }
+    
+    VerificaDia(data: Date){
+        return data.getDay() != DiaSemana.Sabado && data.getDay() != DiaSemana.Domingo;
+    }
+}
+
+enum DiaSemana {
+    Domingo,
+    Segunda,
+    Terça,
+    Quarta,
+    Quinta,
+    Sexta,
+    Sabado       
 }

@@ -14,6 +14,6 @@ export class NegociacaoService{
     }
 }
 
-export interface handlerFunction{
+export interface handlerFunction{ 
     (res: Response): Response
 }
